@@ -2,6 +2,8 @@ import { BrowserWindow, app } from 'electron'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
 
+import ipcSetup from './ipc-handler'
+
 const isDev = process.env.NODE_ENV !== 'production'
 
 let mainWindow: BrowserWindow | null
@@ -24,7 +26,8 @@ app.on('window-all-closed', () => {
 
 
 function createMainWindow(): BrowserWindow {
-    const win = new BrowserWindow()
+    const win = new BrowserWindow({width: 1366, height: 960})
+    ipcSetup()
 
     if (isDev) {
         win.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`)
